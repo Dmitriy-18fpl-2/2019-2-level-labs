@@ -10,6 +10,7 @@ def calculate_frequences(text: str) -> dict:
     """
     pass
 x=5
+y=6
 
 def filter_stop_words(frequencies: dict, stop_words: tuple) -> dict:
     """
