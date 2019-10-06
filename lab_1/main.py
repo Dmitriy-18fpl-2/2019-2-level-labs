@@ -74,7 +74,7 @@ def get_top_n(frequencies: dict, top_n: int) -> tuple:
             else:
                 order = len(N_words)
                 for index, element in enumerate(N_words):
-                    if v >= frequencies[N_words[index]] or v == frequencies[N_words[index]]:
+                    if v > frequencies[N_words[index]]:
                         order -= 1
                     else:
                         continue
