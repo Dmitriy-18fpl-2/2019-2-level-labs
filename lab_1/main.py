@@ -32,15 +32,22 @@ def calculate_frequences(text: str) -> dict:
                 frequencies[list_of_words[i]] += 1
         return (frequencies)
     else:
+        frequencies = {}
+        return frequencies
         print('error, text must be str')
 
 def filter_stop_words(frequencies: dict, stop_words: tuple) -> dict:
     """
     Removes all stop words from the given frequencies dictionary
     """
-    if type(stop_words) == tuple:
+    if type(stop_words) == tuple and type(frequencies) == dict:
         global frequencies_edited
         frequencies_edited = frequencies.copy()
+        for key in frequencies_edited:
+            if type(key) != str:
+                del(frequencies_edited[key])
+            else:
+                continue
         for i in stop_words:
             if type(i) != str:
                 print('error,', i, 'is not str.')
@@ -58,7 +65,7 @@ def get_top_n(frequencies: dict, top_n: int) -> tuple:
     """
     Takes first N popular words
     """
-    if type(top_n) == int:
+    if type(top_n) == int and top_n >= 0:
         N_words = []
         for k, v in frequencies.items():
             if len(N_words) == 0:
@@ -76,5 +83,7 @@ def get_top_n(frequencies: dict, top_n: int) -> tuple:
         N_popular_words = tuple(N_words)
         return (N_popular_words)
     else:
+        N_popular_words = ()
+        return N_popular_words
         print('error, top_n must be int')
 
