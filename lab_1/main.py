@@ -43,7 +43,7 @@ def filter_stop_words(frequencies: dict, stop_words: tuple) -> dict:
     if type(stop_words) == tuple and type(frequencies) == dict:
         global frequencies_edited
         frequencies_edited = frequencies.copy()
-        for key in frequencies_edited:
+        for key in frequencies_edited.keys():
             if type(key) != str:
                 del(frequencies_edited[key])
             else:
@@ -65,7 +65,7 @@ def get_top_n(frequencies: dict, top_n: int) -> tuple:
     """
     Takes first N popular words
     """
-    if type(top_n) == int and top_n >= 0:
+    if type(top_n) == int and top_n >= 1:
         N_words = []
         for k, v in frequencies.items():
             if len(N_words) == 0:
