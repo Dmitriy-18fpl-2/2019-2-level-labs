@@ -87,7 +87,6 @@ def find_distance(original_word: str,
         print('error')
         return -1
     else:
-        edit_matrix = []
         num_rows = len(original_word) + 1
         num_cols = len(target_word) + 1
         generate_edit_matrix(num_rows, num_cols)
