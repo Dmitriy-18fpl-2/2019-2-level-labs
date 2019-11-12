@@ -17,21 +17,20 @@ def generate_edit_matrix(num_rows: int, num_cols: int) -> list:
 def initialize_edit_matrix(edit_matrix: tuple, add_weight: int, remove_weight: int) -> list:
     if type(add_weight) != int or type(remove_weight) != int:
         print('error')
-        return edit_matrix
+        return list(edit_matrix)
     if edit_matrix == []:
         print('error')
-        return edit_matrix
+        return list(edit_matrix)
     for i in edit_matrix:
         if i == []:
             print('error')
-            return edit_matrix
+            return list(edit_matrix)
     else:
-        for i in range(len(1, edit_matrix[0])):
+        for i in range(1, len(edit_matrix[0])):
             edit_matrix[0][i] = edit_matrix[0][i - 1] + add_weight
-        print(edit_matrix)
         for i in range(len(1, edit_matrix)):
             edit_matrix[i][0] = edit_matrix[i - 1][0] + remove_weight
-        return edit_matrix
+        return list(edit_matrix)
 
 
 def minimum_value(numbers: tuple) -> int:
@@ -47,25 +46,23 @@ def fill_edit_matrix(edit_matrix: tuple,
                      target_word: str) -> list:
     if type(original_word) != str or type(target_word) != str:
         print('error')
-        return edit_matrix
+        return list(edit_matrix)
     if type(add_weight) != int or type(remove_weight) != int or type(substitute_weight) != int:
         print('error')
-        return edit_matrix
-    if edit_matrix == []:
+        return list(edit_matrix)
+    if edit_matrix == ():
         print('error')
+        edit_matrix = []
         return edit_matrix
     if len(edit_matrix) == 1:
-        return edit_matrix
+        return list(edit_matrix)
     else:
         for i in range(len(edit_matrix)):
             if edit_matrix[i] == []:
                 print('error')
-                return edit_matrix
-            if type(edit_matrix[i]) != list:
-                print('error')
-                return edit_matrix
+                return list(edit_matrix)
             if len(edit_matrix[i]) == 1:
-                return edit_matrix
+                return list(edit_matrix)
         for i in range(1, len(edit_matrix)):
             for j in range(1, len(edit_matrix[i])):
                 num_1 = edit_matrix[i - 1][j] + remove_weight
@@ -76,7 +73,7 @@ def fill_edit_matrix(edit_matrix: tuple,
                     num_3 = edit_matrix[i - 1][j - 1] + substitute_weight
                 numbers = (num_1, num_2, num_3)
                 edit_matrix[i][j] += minimum_value(numbers)
-        return edit_matrix
+        return list(edit_matrix)
 
 
 def find_distance(original_word: str,
