@@ -7,7 +7,6 @@ def generate_edit_matrix(num_rows: int, num_cols: int) -> list:
     if type(num_rows) == int and type(num_cols) == int:
         global edit_matrix
         edit_matrix = [[0] * num_cols for i in range(num_rows)]
-        print(edit_matrix)
         return edit_matrix
     else:
         edit_matrix = []
@@ -88,11 +87,12 @@ def find_distance(original_word: str,
         print('error')
         return -1
     else:
+        edit_matrix = []
         num_rows = len(original_word) + 1
         num_cols = len(target_word) + 1
         generate_edit_matrix(num_rows, num_cols)
-        initialize_edit_matrix(edit_matrix, add_weight, remove_weight)
-        fill_edit_matrix(edit_matrix, add_weight, remove_weight, substitute_weight, original_word, target_word)
+        initialize_edit_matrix(tuple(edit_matrix), add_weight, remove_weight)
+        fill_edit_matrix(tuple(edit_matrix), add_weight, remove_weight, substitute_weight, original_word, target_word)
         the_number = edit_matrix[len(edit_matrix) - 1][len(edit_matrix[0]) - 1]
         return the_number
 
