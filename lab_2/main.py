@@ -18,7 +18,7 @@ def initialize_edit_matrix(edit_matrix: tuple, add_weight: int, remove_weight: i
     if type(add_weight) != int or type(remove_weight) != int:
         print('error')
         return list(edit_matrix)
-    if edit_matrix == []:
+    if edit_matrix == ():
         print('error')
         return list(edit_matrix)
     for i in edit_matrix:
@@ -28,7 +28,7 @@ def initialize_edit_matrix(edit_matrix: tuple, add_weight: int, remove_weight: i
     else:
         for i in range(1, len(edit_matrix[0])):
             edit_matrix[0][i] = edit_matrix[0][i - 1] + add_weight
-        for i in range(len(1, edit_matrix)):
+        for i in range(1, len(edit_matrix)):
             edit_matrix[i][0] = edit_matrix[i - 1][0] + remove_weight
         return list(edit_matrix)
 
@@ -81,13 +81,20 @@ def find_distance(original_word: str,
                   add_weight: int,
                   remove_weight: int,
                   substitute_weight: int) -> int:
-    num_rows = len(original_word) + 1
-    num_cols = len(target_word) + 1
-    generate_edit_matrix(num_rows, num_cols)
-    initialize_edit_matrix(edit_matrix, add_weight, remove_weight)
-    fill_edit_matrix(edit_matrix, add_weight, remove_weight, substitute_weight, original_word, target_word)
-    the_number = edit_matrix[len(edit_matrix) - 1][len(edit_matrix[0]) - 1]
-    return the_number
+    if type(add_weight) != int or type(remove_weight) != int or type(substitute_weight) != int:
+        print('error')
+        return -1
+    if type(original_word) != str or type(target_word) != str:
+        print('error')
+        return -1
+    else:
+        num_rows = len(original_word) + 1
+        num_cols = len(target_word) + 1
+        generate_edit_matrix(num_rows, num_cols)
+        initialize_edit_matrix(edit_matrix, add_weight, remove_weight)
+        fill_edit_matrix(edit_matrix, add_weight, remove_weight, substitute_weight, original_word, target_word)
+        the_number = edit_matrix[len(edit_matrix) - 1][len(edit_matrix[0]) - 1]
+        return the_number
 
 
 def save_to_csv(edit_matrix):
