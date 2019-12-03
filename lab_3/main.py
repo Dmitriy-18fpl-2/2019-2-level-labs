@@ -149,8 +149,6 @@ def split_by_sentence(text: str) -> list:
     if type(text) == str and text != '' and "." in text:
         text_low = text.lower()
         for i in range(len(text_low)):
-            if text_low[i] == "'" and text_low[i - 1].isalpha() and text_low[i + 1].isalpha():
-                text_clean += text_low[i]
             if text_low[i] in test_objects:
                 text_clean += text_low[i]
             if text_low[i] in signs:
@@ -168,7 +166,5 @@ def split_by_sentence(text: str) -> list:
     else:
         print('ERROR')
         return []
-
-
 
 
