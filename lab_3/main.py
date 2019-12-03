@@ -17,8 +17,9 @@ class WordStorage:
 
     def put(self, word: str) -> int:
         if word not in self.storage and type(word) == str:
-            id = len(list(self.storage.keys())) + 1
-            self.storage[word] = id
+            word_id = len(list(self.storage.keys())) + 1
+            self.storage[word] = word_id
+            return word_id
         else:
             print("ERROR")
             return False
@@ -39,7 +40,7 @@ class WordStorage:
 
     def from_corpus(self, corpus: tuple):
         id_counter = 1
-        if type(corpus) == tuple and type(corpus[0]) == list and corpus != ():
+        if type(corpus) == tuple and corpus != () and type(corpus[0]) == list:
             for line in range(len(corpus)):
                 for word in range(len(corpus[line])):
                     if corpus[line][word] not in self.storage:
@@ -101,7 +102,7 @@ class NGramTrie:
             return False
 
     def predict_next_sentence(self, prefix: tuple) -> list:
-        if len(prefix) == self.size - 1 and type(prefix) == tuple:
+        if type(prefix) == tuple and len(prefix) == self.size - 1:
             predicted_sentence = list(prefix)
             while True:
                 support_number = 0
@@ -112,6 +113,7 @@ class NGramTrie:
                     if prefix == key_log_prob[:self.size - 1] and next_word_prob == 0:
                         next_word = key_log_prob[len(key_log_prob) - 1]
                         next_word_prob = self.gram_log_probabilities[key_log_prob]
+                        continue
                     elif prefix == key_log_prob[:self.size - 1]:
                         if next_word_prob < self.gram_log_probabilities[key_log_prob]:
                             next_word = key_log_prob[len(key_log_prob) - 1]
@@ -142,6 +144,7 @@ def encode(storage_instance, corpus) -> list:
 
 def split_by_sentence(text: str) -> list:
     test_objects = "qwertyuioplkjhgfdsazxcvbnm. "
+    signs = "!?"
     text_clean = ""
     if type(text) == str and text != '' and "." in text:
         text_low = text.lower()
@@ -150,7 +153,7 @@ def split_by_sentence(text: str) -> list:
                 text_clean += text_low[i]
             if text_low[i] in test_objects:
                 text_clean += text_low[i]
-            if text_low[i] == "\n":
+            if text_low[i] in signs:
                 text_clean += "."
             else:
                 continue
