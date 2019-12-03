@@ -104,9 +104,9 @@ class NGramTrie:
     def predict_next_sentence(self, prefix: tuple) -> list:
         if type(prefix) == tuple and len(prefix) == self.size - 1:
             predicted_sentence = list(prefix)
+            support_number = 0
             while True:
-                support_number = 0
-                prefix = predicted_sentence[support_number:len(predicted_sentence) - 1]
+                prefix = tuple(predicted_sentence[support_number:len(predicted_sentence)])
                 next_word_prob = 0
                 next_word = "safety"
                 for key_log_prob in list(self.gram_log_probabilities.keys()):
@@ -125,7 +125,7 @@ class NGramTrie:
                 if next_word == "safety" or next_word == predicted_sentence[len(predicted_sentence) - 1]:
                     return predicted_sentence
                 else:
-                    predicted_sentence.insert(next_word, len(predicted_sentence))
+                    predicted_sentence.insert(len(predicted_sentence), next_word)
                 support_number += 1
         else:
             predicted_sentence = []
@@ -158,12 +158,17 @@ def split_by_sentence(text: str) -> list:
             else:
                 continue
         corpus = text_clean.split(".")
+        if corpus[len(corpus) - 1] == '':
+            corpus.pop()
         for i in range(len(corpus)):
             corpus[i] = corpus[i].split()
             corpus[i].insert(len(corpus[i]), "</s>")
             corpus[i].insert(0, "<s>")
-            print(corpus)
         return corpus
     else:
         print('ERROR')
         return []
+
+
+
+
