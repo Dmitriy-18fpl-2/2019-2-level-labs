@@ -40,10 +40,14 @@ class TfIdfCalculator:
     def calculate_tf(self):
         if isinstance(self.corpus, list) and self.corpus != []:
             iteration = 0
+            all_words = 0
             for text in self.corpus:
                 if isinstance(text, list) and text != []:
                     self.tf_values += [{}]
-                    all_words = len(text)
+                    for word in text:
+                        if isinstance(word, str):
+                            all_words += 1
+
                 else:
                     continue
                 for word in text:
@@ -55,6 +59,12 @@ class TfIdfCalculator:
 
     def calculate_idf(self):
         if isinstance(self.corpus, list):
+            non_texts = 0
+            for text in self.corpus:
+                if isinstance(text, list):
+                    continue
+                else:
+                    non_texts += 1
             all_texts = len(self.corpus)
             list_of_words = self.__unique_words_extracter__()
             for word in list_of_words:
@@ -65,7 +75,7 @@ class TfIdfCalculator:
                             word_appearance += 1
                         else:
                             continue
-                self.idf_values[word] = math.log(all_texts / word_appearance)
+                self.idf_values[word] = math.log(all_texts - non_texts / word_appearance)
 
     def __unique_words_extracter__(self):
         list_of_unique_words = []
@@ -89,7 +99,7 @@ class TfIdfCalculator:
                         continue
 
     def report_on(self, word, document_index):
-        if document_index <= len(self.tf_idf_values) and isinstance(self.tf_idf_values, list) and self.tf_idf_values != []:
+        if isinstance(self.tf_idf_values, list) and document_index <= len(self.tf_idf_values) and self.tf_idf_values != []:
             tupled_sorted_dict = sorted(self.tf_idf_values[document_index].items(), key=lambda item: (-item[1], item[0]))
             report = ()
             for index, key_value in enumerate(tupled_sorted_dict):
