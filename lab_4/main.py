@@ -13,7 +13,7 @@ def clean_tokenize_corpus(texts: list) -> list:
                 text_clean = ''
                 text_low = text.lower()
                 if '<br />' in text_low:
-                    text_low = text_low.replace('<br />', '*')
+                    text_low = text_low.replace('<br />', ' ')
                 for index in range(len(text_low)):
                     if text_low[index] in test_objects:
                         text_clean += text_low[index]
@@ -40,10 +40,10 @@ class TfIdfCalculator:
     def calculate_tf(self):
         if isinstance(self.corpus, list) and self.corpus != []:
             iteration = 0
-            all_words = 0
             for text in self.corpus:
                 if isinstance(text, list) and text != []:
                     self.tf_values += [{}]
+                    all_words = 0
                     for word in text:
                         if isinstance(word, str):
                             all_words += 1
@@ -65,7 +65,7 @@ class TfIdfCalculator:
                     continue
                 else:
                     non_texts += 1
-            all_texts = len(self.corpus)
+            all_texts = len(self.corpus) - non_texts
             list_of_words = self.__unique_words_extracter__()
             for word in list_of_words:
                 word_appearance = 0
@@ -75,7 +75,7 @@ class TfIdfCalculator:
                             word_appearance += 1
                         else:
                             continue
-                self.idf_values[word] = math.log(all_texts - non_texts / word_appearance)
+                self.idf_values[word] = math.log(all_texts / word_appearance)
 
     def __unique_words_extracter__(self):
         list_of_unique_words = []
