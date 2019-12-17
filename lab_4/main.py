@@ -99,15 +99,14 @@ class TfIdfCalculator:
 
     def report_on(self, word, document_index):
         if isinstance(self.tf_idf_values, list) and document_index <= len(self.tf_idf_values) and self.tf_idf_values != [] and word not in self.tf_idf_values:
-            if self.tf_values == []:
-                self.calculate_tf()
-            word_values = sorted(self.tf_values[document_index].items(), key=lambda item: (-item[1], item[0]))
+            word_values = sorted(self.tf_idf_values[document_index].items(), key=lambda item: (-item[1], item[0]))
             value_position = 0
             top_dict = {}
             for index, pare in enumerate(word_values):
                 if index + 1 == len(word_values):
-                    break
-                if pare[1] == word_values[index + 1][1]:
+                    top_dict[pare[0]] = value_position
+                    continue
+                if word in self.corpus[document_index] and pare[1] == word_values[index + 1][1]:
                     top_dict[pare[0]] = value_position
                     continue
                 elif pare[1] != word_values[index + 1][1]:
@@ -132,7 +131,7 @@ class TfIdfCalculator:
                             vector += [0]
                     print(vector)
                     vectors += [vector]
-            a_b_sum = (math.fsum(vectors[0]) * math.fsum(vectors[1]))
+            a_b_sum = math.fsum(vectors[0][i] * vectors[1][i] for i in range(len(vector(0))))
             a_b_cube_sum = (math.sqrt(math.fsum(i*i for i in vectors[0])) * (math.sqrt(math.fsum(i*i for i in vectors[1]))))
             cos_dist = a_b_sum / a_b_cube_sum
             return cos_dist
