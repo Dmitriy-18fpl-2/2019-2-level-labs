@@ -35,7 +35,7 @@ class TfIdfCalculator:
         self.tf_values = []
         self.idf_values = {}
         self.tf_idf_values = []
-        self.file_names = texts
+        self.file_names = []
 
     def calculate_tf(self):
         if isinstance(self.corpus, list) and self.corpus != []:
