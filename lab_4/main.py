@@ -47,7 +47,6 @@ class TfIdfCalculator:
                     for word in text:
                         if isinstance(word, str):
                             all_words += 1
-
                 else:
                     continue
                 for word in text:
@@ -99,12 +98,22 @@ class TfIdfCalculator:
                         continue
 
     def report_on(self, word, document_index):
-        if isinstance(self.tf_idf_values, list) and document_index <= len(self.tf_idf_values) and self.tf_idf_values != []:
-            tupled_sorted_dict = sorted(self.tf_idf_values[document_index].items(), key=lambda item: (-item[1], item[0]))
-            report = ()
-            for index, key_value in enumerate(tupled_sorted_dict):
-                if word in key_value:
-                    report = (self.tf_idf_values[document_index][word], index)
+        if isinstance(self.tf_idf_values, list) and document_index <= len(self.tf_idf_values) and self.tf_idf_values != [] and word not in self.tf_idf_values:
+            if self.tf_values == []:
+                self.calculate_tf()
+            word_values = sorted(self.tf_values[document_index].items(), key=lambda item: (-item[1], item[0]))
+            value_position = 0
+            top_dict = {}
+            for index, pare in enumerate(word_values):
+                if index + 1 == len(word_values):
+                    break
+                if pare[1] == word_values[index + 1][1]:
+                    top_dict[pare[0]] = value_position
+                    continue
+                elif pare[1] != word_values[index + 1][1]:
+                    top_dict[pare[0]] = value_position
+                    value_position += 1
+            report = (self.tf_idf_values[document_index][word], top_dict[word])
             return report
         else:
             return ()
